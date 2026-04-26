@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {% block title %}
+
+        {% endblock %}
+    </title>
+
+    <link rel="stylesheet" href="{{url_for('static', filename='css/reset.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+
+    {% block style %}
+
+    {% endblock %}
+</head>
+<body>
+    <header>
+        <a href="{{url_for('index')}}">
+        <div class="logo">
+            <img src="{{url_for('static', filename='imgs/logo.png')}}" alt="Logo">
+        </div>
+        </a>
+        <div class="headerbuttons">
+
+                {% if session.get('usuario') %}
+                    <a href="{{ url_for('logout') }}">
+                        <button>Logout</button>
+                    </a>
+                {% else %}
+                    <a href="{{ url_for('cadastro') }}" >
+                        <button>Cadastro</button>
+                    </a>
+                                
+                                    
+                    <a href="{{ url_for('login') }}" >
+                        <button>Login</button>
+                    </a>
+                {% endif %}
+                <a href="#" class="icone">
+                    <img src="{{ url_for('static', filename='imgs/perfil.png') }}" alt="Perfil">
+                </a>
+
+                <a href="#" class="icone">
+                    <img src="{{ url_for('static', filename='imgs/carrinho.png') }}" alt="Carrinho">
+                </a>
+        </div>
+    </header>
+    <main>
+        {% block content %}
+
+        {% endblock %}
+    </main>
+    <footer>
+        <div>
+            <img src="{{ url_for('static', filename='imgs/Instagram.png') }}" alt="Instagram">
+            <p>@REVEST</p>
+        </div>
+        <div>
+            <img src="{{ url_for('static', filename='imgs/X.png') }}" alt="X">
+            <p>@REVEST</p>
+        </div>
+        <div>
+            <img src="{{ url_for('static', filename='imgs/Whatsapp.png') }}" alt="Whatsapp">
+            <p>(84) 9 9700-4261</p>
+        </div>
+        <div>
+            <img src="{{ url_for('static', filename='imgs/Facebook.png') }}" alt="Facebook">
+            <p>@REVEST</p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,41 +1,42 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+:root{
+    --cor-headerfooter: #d9d9d9;
+    --preto: black;
+    --branco: white;
+    --corfundo-headerbutton: #666;
+    --corfundo-headerbutton-hover: #4e4e4e;
+    --cor-headerimg-hover: #cccccc;
+}
+
+body{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
     font-family: Arial, Helvetica, sans-serif;
 }
 
-body {
-    background-image: url("../imgs/fundo.png");
-    background-size: cover;
-    background-position: center;
-    min-height: 100vh;
-}
-
-
-.topo {
-    border-bottom: 1px solid black;
-    background-color: #d9d9d9;
+header{
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background-color: var(--cor-headerfooter);
+    border-bottom: 1px solid var(--preto);
     padding: 15px 40px;
 }
 
-.logo {
-    font-weight: bold;
-    font-size: 18px;
+.logo img{
+ width: 90px;
+ height: 40px;   
 }
 
-.mtopo {
+.headerbuttons{
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
-.bttopo {
-    background-color: #666;
-    color: white;
+.headerbuttons button{
+    background-color: var(--corfundo-headerbutton);
+    color: var(--branco);
     border: none;
     padding: 8px 18px;
     border-radius: 38px;
@@ -43,86 +44,54 @@ body {
     transition: all 0.3s ease;
 }
 
-.bttopo:hover {
-    background-color: #4e4e4e;
+.headerbuttons button:hover{
+    background-color: var(--corfundo-headerbutton-hover);
     transform: scale(1.05);
     box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
-.icone img {
+
+.headerbuttons img{
     border-radius: 50%;
-    background-color: #ffffff;
+    background-color: var(--branco);
     width: 39px;
     height: 39px;
     cursor: pointer;
 }
 
-.icone img:hover {
-    background-color: #cccccc;
+.headerbuttons img:hover{
+    background-color: var(--cor-headerimg-hover);
     transform: scale(1.05);
     box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     border-radius: 50%;
-    
-
 }
 
-
-.banner img {
-    margin: 20px auto;
-    width: 60%;
+main{
+    background-image: url("../imgs/fundo.png");
+    background-size: cover;
+    background-position: center;
+    flex: 1;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 30px;
-}
-
-
-
-.quadradao {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+    flex-direction: column;
+    gap: 50px;
     justify-content: center;
-    gap: 40px;
-    margin-top: 40px;
+    align-items: center;
 }
 
-.quadrado {
-    
-    width: 280px;
-    height: 200px;
-    background-color: #f1f0f0;
-    border: 2px solid #9bd3a6;
-    border-radius: 15px;
-    text-align: center;
-    padding: 20px;
-}
-
-
-
-.btcard {
-    background-color: #9bd3a6;
-    border: none;
-    padding: 8px 20px;
-    border-radius: 15px;
-    cursor: pointer;
-}
-
-.quadrado img{
-    width: 60%;
-}
-
-.btcard:hover{
-    background-color: #57705c;
-    transition: 0.4s;
-    transform: scale(1.05);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-}
-
-.rodape {
-    border-top: 1px solid black;
-    margin-top: 60px;
-    background-color: #d9d9d9;
+footer{
+    border-top: 1px solid var(--preto);
+    background-color: var(--cor-headerfooter);
     display: flex;
-    justify-content: space-around;
+     justify-content: space-around;
     padding: 15px;
+}
+
+footer div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+footer img{
+    width: 24px;
+    height: 24px;
 }

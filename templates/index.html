@@ -1,79 +1,84 @@
-@ -0,0 +1,78 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Reveste Doação</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
-<body>
+{% extends "base.html" %}
 
+{% block title %}
+    Reveste Doação
+{% endblock %}
 
-    <header class="topo">
-        <div class="logo"></div>
+{% block style %}
+    <style>
+        :root{
+            --verde: #9bd3a6;
+            --verde-hover: #57705c;
+            --background: #f1f0f0;
+            }
 
-        <div class="mtopo">
-            
-                <a href="{{ url_for('cadastro') }}" >
-                      <button class="bttopo">Cadastro</button>
-                </a>
-          
-            
-                <a href="{{ url_for('login') }}" >
-                      <button class="bttopo">Login</button>
-                </a>
-                <a href="{{ url_for('perfil') }}" class="icone">
-                    <img src="{{ url_for('static', filename='imgs/perfil.png') }}" alt="Perfil">
-                </a>
+        section{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 60px;
+        }
 
-                <a href="{{ url_for('carrinho') }}" class="icone">
-                    <img src="{{ url_for('static', filename='imgs/carrinho.png') }}" alt="Carrinho">
-                </a>
-        </div>
-    </header>
+        section > img{
+            width: 1000px;
+        }
 
+        section > div{
+            display: flex;
+            flex-direction: column;
+            width: 280px;
+            height: 200px;
+            background-color: var(--background);
+            border: 2px solid var(--verde);
+            border-radius: 15px;
+            text-align: center;
+            padding: 20px;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        section > div > img{
+            width: 60%;
+        }
 
-    <section class="">
-        <div class="banner">
-          <img src="{{ url_for('static', filename='imgs/doer.png') }}" alt="">
-        </div>
+        section button{
+            background-color: var(--verde);
+            border: none;
+            padding: 8px 20px;
+            border-radius: 15px;
+            cursor: pointer;
+        }
 
+        section button:hover{
+            background-color: var(--verde-hover);
+            transition: 0.4s;
+            transform: scale(1.05);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <section>
+        <img src="{{ url_for('static', filename='imgs/doer.png') }}" alt="Banner">
     </section>
 
-
-    <section class="quadradao">
-
-        <div class="quadrado">
-            <div>
-                <h3>Cadastre sua peça aqui</h3>
-                <img src="{{ url_for('static', filename='imgs/roupas1.png') }}">
-            </div>
-            
-                <a href="{{ url_for('cadastro_roupa') }}" >
-                                <button class="btcard">Cadastrar</button>
-                </a>
+    <section>
+        <div>
+            <h3>Cadastre sua peça aqui</h3>
+            <img src="{{ url_for('static', filename='imgs/roupas1.png') }}">
+            <a href="{{ url_for('cadastro_roupa') }}" >
+                <button>Cadastrar</button>
+            </a>
         </div>
-
-        <div class="quadrado">
-            <div>
-                <h3>Encontre peças para você</h3>
-                <img src="{{ url_for('static', filename='imgs/roupa2.png') }}">   
-            </div>
-            
-                <a href="{{ url_for('catalogo') }}" >
-                      <button class="btcard">Ir para catálogo</button>
-                </a>
+        <div>
+            <h3>Encontre peças para você</h3>
+            <img src="{{ url_for('static', filename='imgs/roupa2.png') }}">   
+            <a href="{{ url_for('catalogo') }}" >
+                <button>Ir para catálogo</button>
+            </a>
         </div>
-
+                       
     </section>
-
-    <footer class="rodape">
-        <div>@REVEST</div>
-        <div>@REVEST</div>
-        <div>(84) 9 9700-4261</div>
-        <div>@REVEST</div>
-    </footer>
-
-<script src="{{ url_for('static', filename='js/script.js') }}"></script>
-</body>
-</html>
+{% endblock %}

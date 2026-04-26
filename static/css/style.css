@@ -95,3 +95,20 @@ footer img{
     width: 24px;
     height: 24px;
 }
+
+body.mobile .menu {
+    flex-direction: column;
+}
+
+body.mobile .container {
+    width: 100%;
+    padding: 10px;
+}
+
+body.tablet .container {
+    width: 90%;
+}
+
+body.desktop .container {
+    width: 80%;
+}

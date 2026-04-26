@@ -81,7 +81,7 @@ footer{
     border-top: 1px solid var(--preto);
     background-color: var(--cor-headerfooter);
     display: flex;
-     justify-content: space-around;
+    justify-content: space-around;
     padding: 15px;
 }
 

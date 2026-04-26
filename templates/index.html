@@ -75,10 +75,10 @@
         <div>
             <h3>Encontre peças para você</h3>
             <img src="{{ url_for('static', filename='imgs/roupa2.png') }}">   
-            <a href="{{ url_for('catalogo') }}" >
+            <a href="{{ url_for('catalogo', usuario= session.get('usuario')) }}" >
                 <button>Ir para catálogo</button>
             </a>
         </div>
-                       
+               
     </section>
 {% endblock %}

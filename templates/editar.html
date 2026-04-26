@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Edite as informações das roupas
+{% endblock %}
+
+{% block style %}
+    <style>
+        :root{
+            --verde: #9bd3a6;
+            --verde-hover: #57705c;
+            --background: #f1f0f0;
+            }
+
+        section{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 60px;
+        }
+
+        section > div{
+            display: flex;
+            flex-direction: column;
+            background-color: var(--background);
+            border: 2px solid var(--verde);
+            border-radius: 15px;
+            text-align: center;
+            padding: 20px;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+        }
+
+        section button{
+            background-color: var(--verde);
+            border: none;
+            padding: 8px 20px;
+            border-radius: 15px;
+            cursor: pointer;
+        }
+
+        section button:hover{
+            background-color: var(--verde-hover);
+            transition: 0.4s;
+            transform: scale(1.05);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        form{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+        }
+
+        input{
+            width: 100%;
+            height: 20px;
+            border-radius: 5px;
+            border: 1px solid var(--preto);
+        }
+
+        section h1{
+            color: var(--verde);
+            font-size: 24px;
+        }
+        section p{
+            font-size: 20px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <section>
+        <div>
+            <h1>EDITE ALGUMA INFORMAÇÃO</h1>
+            <p>INSIRA OS DADOS REQUISITADOS</p>
+            <form method="POST">
+                <input type="text" name="nome" placeholder="Nome" required>
+                <input type="text" name="tamanho" placeholder="Tamanho" required>
+                <input type="text" name="estado" placeholder="Estado" required>
+                <input type="text" name="descricao" placeholder="Descrição" required>
+                <button>EDITE</button>
+            </form>
+        </div>
+        <div>
+            <h1>DESEJA REMOVER A DOAÇÃO?</h1>
+            <p>DIGITE "REMOVER" NO CAMPO ABAIXO <br> PARA CONFIRMAR</p>
+            <form action="{{ url_for('remover_roupa', id=roupa.id) }} "method="POST">
+                <input type="text" name="remover" placeholder="PREENCHA O CAMPO COM 'REMOVER'" required>
+                <button>REMOVER</button>
+            </form>
+        </div>
+    </section>
+{% endblock %}

@@ -75,37 +75,69 @@ def index():
 
 @app.route("/cadastro", methods=["GET", "POST"])
 def cadastro():
+    erro = None
+    nome = endereco = email = ""
+
     if request.method == "POST":
-        nome = request.form.get("nome")
-        endereco = request.form.get("endereco")
-        email = request.form.get("email")
-        senha = request.form.get("senha")
+        nome = request.form.get("nome", "").strip()
+        endereco = request.form.get("endereco", "").strip()
+        email = request.form.get("email", "").strip()
+        senha = request.form.get("senha", "").strip()
 
-        novo_usuario = {
-            "nome": nome,
-            "endereco": endereco,
-            "email": email,
-            "senha": senha
-        }
+        if not nome or not endereco or not email or not senha:
+            erro = "Todos os campos são obrigatórios."
+            return render_template(
+                "cadastro.html",
+                erro=erro,
+                nome=nome,
+                endereco=endereco,
+                email=email,
+            )
 
-        usuarios.append(novo_usuario)
+        if usuario_existente(nome, email):
+            erro = "Nome de usuário ou e-mail já cadastrado."
+            return render_template(
+                "cadastro.html",
+                erro=erro,
+                nome=nome,
+                endereco=endereco,
+                email=email,
+            )
+
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute(
+            "INSERT INTO usuarios (nome, endereco, email, senha) VALUES (?, ?, ?, ?)",
+            (nome, endereco, email, senha),
+        )
+        conn.commit()
+        conn.close()
 
         return redirect(url_for("login"))
-    
+
     return render_template("cadastro.html")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    erro = None
+    nome = ""
 
     if request.method == "POST":
-        nome = request.form.get("nome")
-        senha = request.form.get("senha")
-        for user in usuarios:
-            if user["nome"] == nome and user["senha"] == senha:
-                session["usuario"] = nome
-                return redirect(url_for("index"))
+        nome = request.form.get("nome", "").strip()
+        senha = request.form.get("senha", "").strip()
 
-    return render_template("login.html")
+        if not nome or not senha:
+            erro = "Informe nome e senha."
+            return render_template("login.html", erro=erro, nome=nome)
+
+        usuario = obter_usuario(nome, senha)
+        if usuario:
+            session["usuario"] = usuario["nome"]
+            return redirect(url_for("index"))
+
+        erro = "Nome ou senha inválidos."
+
+    return render_template("login.html", erro=erro, nome=nome)
 
 @app.route("/cadastro_roupa", methods=["GET", "POST"])
 def cadastro_roupa():

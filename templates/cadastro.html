@@ -82,10 +82,13 @@
     <section>
         <h1>CRIAR NOVA CONTA</h1>
         <p>INSIRA OS DADOS REQUISITADOS</p>
+        {% if erro %}
+            <p class="erro">{{ erro }}</p>
+        {% endif %}
         <form method="POST">
-            <input type="text" name="nome" placeholder="Nome" required>
-            <input type="text" name="endereco" placeholder="Endereço" required>
-            <input type="email" name="email" placeholder="E-mail" required>
+            <input type="text" name="nome" placeholder="Nome" required value="{{ nome }}">
+            <input type="text" name="endereco" placeholder="Endereço" required value="{{ endereco }}">
+            <input type="email" name="email" placeholder="E-mail" required value="{{ email }}">
             <input type="password" name="senha" placeholder="Senha" required>
             <button>CADASTRE-SE</button>
         </form>

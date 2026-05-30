@@ -77,11 +77,14 @@
     <section>
         <h1>FAÇA UMA DOAÇÃO</h1>
         <p>INSIRA OS DADOS REQUISITADOS</p>
+        {% if erro %}
+            <p class="erro">{{ erro }}</p>
+        {% endif %}
         <form method="POST">
-            <input type="text" name="nome" placeholder="Nome" required>
-            <input type="text" name="tamanho" placeholder="Tamanho" required>
-            <input type="text" name="estado" placeholder="Estado" required>
-            <input type="text" name="descricao" placeholder="Descrição" required>
+            <input type="text" name="nome" placeholder="Nome" required value="{{ nome }}">
+            <input type="text" name="tamanho" placeholder="Tamanho" required value="{{ tamanho }}">
+            <input type="text" name="estado" placeholder="Estado" required value="{{ estado }}">
+            <input type="text" name="descricao" placeholder="Descrição" required value="{{ descricao }}">
             <button>DOAR</button>
         </form>
     </section>

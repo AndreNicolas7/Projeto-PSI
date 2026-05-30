@@ -55,16 +55,23 @@
 
 {% block content %}
     <section>
-       {% for roupa in roupas %}
+       {% if roupas %}
+           {% for roupa in roupas %}
+                <div>
+                    <h3>{{ roupa.nome }}</h3>
+                    <p>{{ roupa.tamanho }}</p>
+                    <p>{{ roupa.estado }}</p>
+                    <p>{{ roupa.descricao }}</p>
+                    <a href="{{ url_for('editar', id=roupa.id) }}">
+                        <button>Editar</button>
+                    </a>
+                </div>
+            {% endfor %}
+       {% else %}
             <div>
-                <h3>{{ roupa.nome }}</h3>
-                <p>{{ roupa.tamanho }}</p>
-                <p>{{ roupa.estado }}</p>
-                <p>{{ roupa.descricao }}</p>
-                <a href="{{ url_for('editar', id=roupa.id) }}">
-                    <button>Editar</button>
-                </a>
+                <h3>Nenhuma peça cadastrada</h3>
+                <p>Cadastre uma peça para aparecer aqui.</p>
             </div>
-        {% endfor %}
+       {% endif %}
     </section>
 {% endblock %}

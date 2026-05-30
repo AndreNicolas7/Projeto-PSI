@@ -65,6 +65,11 @@ header{
     border-radius: 50%;
 }
 
+.user-label {
+    font-weight: bold;
+    margin-right: 12px;
+}
+
 main{
     background-image: url("../imgs/fundo.png");
     background-size: cover;
@@ -94,6 +99,11 @@ footer div{
 footer img{
     width: 24px;
     height: 24px;
+}
+
+.erro {
+    color: #b00020;
+    font-weight: bold;
 }
 
 body.mobile .menu {

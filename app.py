@@ -199,36 +199,56 @@ def logout():
 
 @app.route("/editar/<int:id>", methods=["GET", "POST"])
 def editar(id):
+    if not session.get("usuario"):
+        return redirect(url_for("login"))
 
-    if request.method == "POST":
-        for roupa in roupas:
-            if int(roupa["id"]) == id:
-                roupa["nome"] = request.form.get("nome")
-                roupa["tamanho"] = request.form.get("tamanho")
-                roupa["estado"] = request.form.get("estado")
-                roupa["descricao"] = request.form.get("descricao")
-
-                return redirect(url_for("catalogo", usuario = session.get('usuario')))
-            
-    roupa = None
-
-    for r in roupas:
-        if r["id"] == id:
-            roupa = r
-            break
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM roupas WHERE id = ? AND usuario = ?", (id, session["usuario"]))
+    roupa = cursor.fetchone()
 
     if roupa is None:
-        return redirect(url_for("catalogo", usuario = session.get('usuario')))
+        conn.close()
+        return redirect(url_for("catalogo", usuario=session["usuario"]))
 
+    erro = None
+    if request.method == "POST":
+        nome = request.form.get("nome", "").strip()
+        tamanho = request.form.get("tamanho", "").strip()
+        estado = request.form.get("estado", "").strip()
+        descricao = request.form.get("descricao", "").strip()
+
+        if not nome or not tamanho or not estado or not descricao:
+            erro = "Todos os campos são obrigatórios."
+            conn.close()
+            return render_template("editar.html", roupa=roupa, erro=erro)
+
+        cursor.execute(
+            "UPDATE roupas SET nome = ?, tamanho = ?, estado = ?, descricao = ? WHERE id = ? AND usuario = ?",
+            (nome, tamanho, estado, descricao, id, session["usuario"]),
+        )
+        conn.commit()
+        conn.close()
+
+        return redirect(url_for("catalogo", usuario=session["usuario"]))
+
+    conn.close()
     return render_template("editar.html", roupa=roupa)
 
 @app.route("/remover_roupa/<int:id>", methods=["POST"])
 def remover_roupa(id):
-    remover = request.form.get("remover")
+    if not session.get("usuario"):
+        return redirect(url_for("login"))
+
+    remover = request.form.get("remover", "").strip().upper()
     if remover == "REMOVER":
-        for roupa in roupas:
-            if roupa["id"] == id:
-                roupas.remove(roupa)
-                break
-        return redirect(url_for("catalogo", usuario = session.get('usuario')))
-    return redirect(url_for("catalogo", usuario = session.get('usuario')))
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM roupas WHERE id = ? AND usuario = ?", (id, session["usuario"]))
+        conn.commit()
+        conn.close()
+    return redirect(url_for("catalogo", usuario=session["usuario"]))
+
+
+if __name__ == "__main__":
+    app.run(debug=True)

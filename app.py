@@ -1,12 +1,73 @@
 from flask import Flask, render_template, request, redirect, url_for, session
+import sqlite3
+import os
 
 app = Flask(__name__)
-
 app.secret_key = "segredo"
 
-usuarios = []
+DATABASE = os.path.join(os.path.dirname(__file__), "banco.db")
 
-roupas = []
+def get_db_connection():
+    conn = sqlite3.connect(DATABASE)
+    conn.row_factory = sqlite3.Row
+    return conn
+
+
+def init_db():
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute(
+        """
+        CREATE TABLE IF NOT EXISTS usuarios (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nome TEXT NOT NULL UNIQUE,
+            endereco TEXT NOT NULL,
+            email TEXT NOT NULL UNIQUE,
+            senha TEXT NOT NULL
+        )
+        """
+    )
+    cursor.execute(
+        """
+        CREATE TABLE IF NOT EXISTS roupas (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nome TEXT NOT NULL,
+            tamanho TEXT NOT NULL,
+            estado TEXT NOT NULL,
+            descricao TEXT NOT NULL,
+            usuario TEXT NOT NULL
+        )
+        """
+    )
+    conn.commit()
+    conn.close()
+
+
+init_db()
+
+
+def obter_usuario(nome, senha=None):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    if senha is None:
+        cursor.execute("SELECT * FROM usuarios WHERE nome = ?", (nome,))
+    else:
+        cursor.execute("SELECT * FROM usuarios WHERE nome = ? AND senha = ?", (nome, senha))
+    usuario = cursor.fetchone()
+    conn.close()
+    return usuario
+
+
+def usuario_existente(nome, email):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute(
+        "SELECT * FROM usuarios WHERE nome = ? OR email = ?",
+        (nome, email),
+    )
+    usuario = cursor.fetchone()
+    conn.close()
+    return usuario
 
 @app.route("/")
 def index():

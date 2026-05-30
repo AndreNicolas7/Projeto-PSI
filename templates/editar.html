@@ -78,18 +78,21 @@
         <div>
             <h1>EDITE ALGUMA INFORMAÇÃO</h1>
             <p>INSIRA OS DADOS REQUISITADOS</p>
-            <form method="POST">
-                <input type="text" name="nome" placeholder="Nome" required>
-                <input type="text" name="tamanho" placeholder="Tamanho" required>
-                <input type="text" name="estado" placeholder="Estado" required>
-                <input type="text" name="descricao" placeholder="Descrição" required>
+            {% if erro %}
+            <p class="erro">{{ erro }}</p>
+        {% endif %}
+        <form method="POST">
+                <input type="text" name="nome" placeholder="Nome" required value="{{ roupa.nome }}">
+                <input type="text" name="tamanho" placeholder="Tamanho" required value="{{ roupa.tamanho }}">
+                <input type="text" name="estado" placeholder="Estado" required value="{{ roupa.estado }}">
+                <input type="text" name="descricao" placeholder="Descrição" required value="{{ roupa.descricao }}">
                 <button>EDITE</button>
             </form>
         </div>
         <div>
             <h1>DESEJA REMOVER A DOAÇÃO?</h1>
             <p>DIGITE "REMOVER" NO CAMPO ABAIXO <br> PARA CONFIRMAR</p>
-            <form action="{{ url_for('remover_roupa', id=roupa.id) }} "method="POST">
+            <form action="{{ url_for('remover_roupa', id=roupa.id) }}" method="POST">
                 <input type="text" name="remover" placeholder="PREENCHA O CAMPO COM 'REMOVER'" required>
                 <button>REMOVER</button>
             </form>

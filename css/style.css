@@ -1,0 +1,124 @@
+:root{
+    --cor-headerfooter: #d9d9d9;
+    --preto: black;
+    --branco: white;
+    --corfundo-headerbutton: #666;
+    --corfundo-headerbutton-hover: #4e4e4e;
+    --cor-headerimg-hover: #cccccc;
+}
+
+body{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--cor-headerfooter);
+    border-bottom: 1px solid var(--preto);
+    padding: 15px 40px;
+}
+
+.logo img{
+ width: 90px;
+ height: 40px;   
+}
+
+.headerbuttons{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.headerbuttons button{
+    background-color: var(--corfundo-headerbutton);
+    color: var(--branco);
+    border: none;
+    padding: 8px 18px;
+    border-radius: 38px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.headerbuttons button:hover{
+    background-color: var(--corfundo-headerbutton-hover);
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.headerbuttons img{
+    border-radius: 50%;
+    background-color: var(--branco);
+    width: 39px;
+    height: 39px;
+    cursor: pointer;
+}
+
+.headerbuttons img:hover{
+    background-color: var(--cor-headerimg-hover);
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    border-radius: 50%;
+}
+
+.user-label {
+    font-weight: bold;
+    margin-right: 12px;
+}
+
+main{
+    background-image: url("../imgs/fundo.png");
+    background-size: cover;
+    background-position: center;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    justify-content: center;
+    align-items: center;
+}
+
+footer{
+    border-top: 1px solid var(--preto);
+    background-color: var(--cor-headerfooter);
+    display: flex;
+    justify-content: space-around;
+    padding: 15px;
+}
+
+footer div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+footer img{
+    width: 24px;
+    height: 24px;
+}
+
+.erro {
+    color: #b00020;
+    font-weight: bold;
+}
+
+body.mobile .menu {
+    flex-direction: column;
+}
+
+body.mobile .container {
+    width: 100%;
+    padding: 10px;
+}
+
+body.tablet .container {
+    width: 90%;
+}
+
+body.desktop .container {
+    width: 80%;
+}

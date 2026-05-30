@@ -26,6 +26,7 @@
         <div class="headerbuttons">
 
                 {% if session.get('usuario') %}
+                    <span class="user-label">Olá, {{ session.get('usuario') }}</span>
                     <a href="{{ url_for('logout') }}">
                         <button>Logout</button>
                     </a>

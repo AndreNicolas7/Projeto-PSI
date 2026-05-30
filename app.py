@@ -141,48 +141,60 @@ def login():
 
 @app.route("/cadastro_roupa", methods=["GET", "POST"])
 def cadastro_roupa():
+    if not session.get("usuario"):
+        return redirect(url_for("login"))
+
+    erro = None
+    nome = tamanho = estado = descricao = ""
+
     if request.method == "POST":
-        nome = request.form.get("nome")
-        tamanho = request.form.get("tamanho")
-        estado = request.form.get("estado")
-        descricao = request.form.get("descricao")
-        nova_roupa = {
-            "id": len(roupas) + 1,
-            "nome": nome,
-            "tamanho": tamanho,
-            "estado": estado,
-            "descricao": descricao,
-            "usuario": session.get("usuario")
-        }
+        nome = request.form.get("nome", "").strip()
+        tamanho = request.form.get("tamanho", "").strip()
+        estado = request.form.get("estado", "").strip()
+        descricao = request.form.get("descricao", "").strip()
 
-        roupas.append(nova_roupa)
+        if not nome or not tamanho or not estado or not descricao:
+            erro = "Todos os campos são obrigatórios."
+            return render_template(
+                "cadastro_roupa.html",
+                erro=erro,
+                nome=nome,
+                tamanho=tamanho,
+                estado=estado,
+                descricao=descricao,
+            )
 
-        return redirect(url_for("catalogo", usuario = session.get('usuario')))
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute(
+            "INSERT INTO roupas (nome, tamanho, estado, descricao, usuario) VALUES (?, ?, ?, ?, ?)",
+            (nome, tamanho, estado, descricao, session["usuario"]),
+        )
+        conn.commit()
+        conn.close()
 
-    if session.get('usuario'):
-        return render_template("cadastro_roupa.html")
-    return redirect(url_for("cadastro"))
+        return redirect(url_for("catalogo", usuario=session["usuario"]))
+
+    return render_template("cadastro_roupa.html")
 
 @app.route("/catalogo")
 def catalogo():
-    if session.get('usuario'):
+    if not session.get("usuario"):
+        return redirect(url_for("login"))
 
-        usuario = request.args.get("usuario")
+    usuario = request.args.get("usuario") or session["usuario"]
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM roupas WHERE usuario = ?", (usuario,))
+    roupas = cursor.fetchall()
+    conn.close()
 
-        filtradas = []
-
-        for roupa in roupas:
-            if roupa["usuario"] == usuario:
-                filtradas.append(roupa)
-
-        return render_template("catalogo.html", roupas=filtradas)
-    
-    return redirect(url_for("cadastro"))
+    return render_template("catalogo.html", roupas=roupas, usuario=usuario)
 
 
 @app.route("/logout")
 def logout():
-    session.pop("usuario")
+    session.pop("usuario", None)
     return redirect(url_for("index"))
 
 @app.route("/editar/<int:id>", methods=["GET", "POST"])
